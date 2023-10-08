@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Account;
+use App\Models\Branch;
 use App\Models\Contact;
 use App\Models\Organization;
+use App\Models\Surveyor;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -38,5 +40,14 @@ class DatabaseSeeder extends Seeder
             ->each(function ($contact) use ($organizations) {
                 $contact->update(['organization_id' => $organizations->random()->id]);
             });
+
+        $branches = Branch::factory(12)->create();
+
+        for ($i = 0; $i < 100; $i++) {
+            Surveyor::create([
+                'branch_id' => $branches->random()->id,
+                'name' => 'Ikhsan Heriyawan',
+            ]);
+        }
     }
 }

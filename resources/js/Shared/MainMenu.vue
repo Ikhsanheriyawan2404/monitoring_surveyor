@@ -24,6 +24,18 @@
         <div :class="isUrl('reports') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Reports</div>
       </Link>
     </div>
+    <div class="mb-4">
+      <Link class="group flex items-center py-3" href="/branches">
+        <icon name="printer" class="mr-2 w-4 h-4" :class="isUrl('branches') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'" />
+        <div :class="isUrl('branches') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Branch</div>
+      </Link>
+    </div>
+    <div class="mb-4">
+      <Link class="group flex items-center py-3" href="/surveyors">
+        <icon name="printer" class="mr-2 w-4 h-4" :class="isUrl('surveyors') ? 'fill-white' : 'fill-indigo-400 group-hover:fill-white'" />
+        <div :class="isUrl('surveyors') ? 'text-white' : 'text-indigo-300 group-hover:text-white'">Surveyor</div>
+      </Link>
+    </div>
   </div>
 </template>
 

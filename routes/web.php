@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\SurveyorController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -133,6 +135,66 @@ Route::put('contacts/{contact}/restore', [ContactsController::class, 'restore'])
 
 Route::get('reports', [ReportsController::class, 'index'])
     ->name('reports')
+    ->middleware('auth');
+
+// Branches
+
+Route::get('branches', [BranchController::class, 'index'])
+    ->name('branches')
+    ->middleware('auth');
+
+Route::get('branches/create', [BranchController::class, 'create'])
+    ->name('branches.create')
+    ->middleware('auth');
+
+Route::post('branches', [BranchController::class, 'store'])
+    ->name('branches.store')
+    ->middleware('auth');
+
+Route::get('branches/{branch}/edit', [BranchController::class, 'edit'])
+    ->name('branches.edit')
+    ->middleware('auth');
+
+Route::put('branches/{branch}', [BranchController::class, 'update'])
+    ->name('branches.update')
+    ->middleware('auth');
+
+Route::delete('branches/{branch}', [BranchController::class, 'destroy'])
+    ->name('branches.destroy')
+    ->middleware('auth');
+
+Route::put('branches/{branch}/restore', [BranchController::class, 'restore'])
+    ->name('branches.restore')
+    ->middleware('auth');
+
+// Surveyors
+
+Route::get('surveyors', [SurveyorController::class, 'index'])
+    ->name('surveyors')
+    ->middleware('auth');
+
+Route::get('surveyors/create', [SurveyorController::class, 'create'])
+    ->name('surveyors.create')
+    ->middleware('auth');
+
+Route::post('surveyors', [SurveyorController::class, 'store'])
+    ->name('surveyors.store')
+    ->middleware('auth');
+
+Route::get('surveyors/{surveyor}/edit', [SurveyorController::class, 'edit'])
+    ->name('surveyors.edit')
+    ->middleware('auth');
+
+Route::put('surveyors/{surveyor}', [SurveyorController::class, 'update'])
+    ->name('surveyors.update')
+    ->middleware('auth');
+
+Route::delete('surveyors/{surveyor}', [SurveyorController::class, 'destroy'])
+    ->name('surveyors.destroy')
+    ->middleware('auth');
+
+Route::put('surveyors/{surveyor}/restore', [SurveyorController::class, 'restore'])
+    ->name('surveyors.restore')
     ->middleware('auth');
 
 // Images
