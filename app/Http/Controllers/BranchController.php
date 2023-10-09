@@ -48,6 +48,8 @@ class BranchController extends Controller
             'branch' => [
                 'id' => $branch->id,
                 'name' => $branch->name,
+                'deleted_at' => $branch->deleted_at,
+                'surveyors' => $branch->surveyors()->orderByName()->get()->map->only('id', 'name'),
             ],
         ]);
     }

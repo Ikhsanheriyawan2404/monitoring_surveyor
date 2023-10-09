@@ -32,10 +32,6 @@ class SurveyorController extends Controller
 
     public function create()
     {
-        // $branches = Branch::select()
-        //         ->orderBy('name')
-        //         ->get();
-        // dd($branches);
         return Inertia::render('Surveyors/Create', [
             'branches' => Branch::select()
                 ->orderBy('name')
@@ -57,7 +53,7 @@ class SurveyorController extends Controller
 
     public function edit(Surveyor $surveyor)
     {
-        return Inertia::render('Surveyor/Edit', [
+        return Inertia::render('Surveyors/Edit', [
             'surveyor' => [
                 'id' => $surveyor->id,
                 'name' => $surveyor->name,
@@ -67,8 +63,6 @@ class SurveyorController extends Controller
             'branches' => Branch::select()
                 ->orderBy('name')
                 ->get()
-                ->map
-                ->only('id', 'name'),
         ]);
     }
 

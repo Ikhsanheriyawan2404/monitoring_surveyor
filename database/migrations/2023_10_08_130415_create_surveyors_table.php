@@ -18,6 +18,7 @@ class CreateSurveyorsTable extends Migration
             $table->integer('branch_id')->index();
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('restrict');
         });
