@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Surveyor;
+use App\Models\SurveyorPerformance;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
@@ -19,7 +20,7 @@ class SurveyorController extends Controller
                 ->with('branch')
                 ->orderByName()
                 ->filter(Request::only('search', 'trashed'))
-                ->paginate(10)
+                ->paginate(100)
                 ->withQueryString()
                 ->through(fn ($surveyor) => [
                     'id' => $surveyor->id,
@@ -53,16 +54,43 @@ class SurveyorController extends Controller
 
     public function edit(Surveyor $surveyor)
     {
+        $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $performanceData = []; // Ini akan berisi data skor performa untuk setiap bulan
+
+        foreach ($months as $month) {
+            // Mengambil data performa surveyor berdasarkan bulan
+            $performance = SurveyorPerformance::select()
+                ->where('surveyor_id', $surveyor->id)
+                ->where('month', $month)->get();
+
+            // Menghitung total skor untuk bulan tersebut
+            $totalScore = $performance->sum('score');
+
+            // Menambahkan data skor ke dalam array performanceData
+            $performanceData[] = $totalScore;
+        }
+
         return Inertia::render('Surveyors/Edit', [
             'surveyor' => [
                 'id' => $surveyor->id,
                 'name' => $surveyor->name,
                 'branch_id' => $surveyor->branch_id,
                 'deleted_at' => $surveyor->deleted_at,
+                'tasks' => $surveyor->tasks()->get()->map->only('id', 'name'),
+                'performances' => $surveyor->performances()->get()->map->only(
+                    'id',
+                    'efficiency',
+                    'productivity',
+                    'quality',
+                    'month',
+                    'year',
+                    'score',
+                ),
             ],
             'branches' => Branch::select()
                 ->orderBy('name')
-                ->get()
+                ->get(),
+            'performanceData' => $performanceData,
         ]);
     }
 

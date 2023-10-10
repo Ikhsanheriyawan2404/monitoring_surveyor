@@ -18,6 +18,7 @@
         </div>
       </form>
     </div>
+    
     <h2 class="mt-12 text-2xl font-bold">Surveyor</h2>
     <div class="mt-6 bg-white rounded shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">

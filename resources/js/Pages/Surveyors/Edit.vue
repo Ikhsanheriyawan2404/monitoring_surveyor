@@ -6,6 +6,7 @@
       <span class="text-indigo-400 font-medium">/</span>
       {{ form.name }}
     </h1>
+
     <trashed-message v-if="surveyor.deleted_at" class="mb-6" @restore="restore"> This surveyor has been deleted. </trashed-message>
     <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden">
       <form @submit.prevent="update">
@@ -22,16 +23,142 @@
         </div>
       </form>
     </div>
+
+    <h2 class="mt-12 text-2xl font-bold">Performance</h2>
+    <!-- Card Container -->
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-1 gap-4 mb-3">
+      <div class="bg-white rounded-lg shadow-md p-4">
+        <!-- Card Content -->
+        <h2 class="text-xl font-semibold mb-2">Line Chart</h2>
+        <div>
+          <Line :data="dataLine" :options="options" />
+        </div>
+      </div>
+    </div>
+
+    <h2 class="mt-12 text-2xl font-bold">Data Performance Perbulan</h2>
+    <div class="mt-6 bg-white rounded shadow overflow-x-auto">
+      <table class="w-full whitespace-nowrap">
+        <tr class="text-left font-bold">
+          <th class="pb-4 pt-6 px-6">Month</th>
+          <th class="pb-4 pt-6 px-6">Productivity</th>
+          <th class="pb-4 pt-6 px-6">Quality</th>
+          <th class="pb-4 pt-6 px-6">Efficiency</th>
+          <th class="pb-4 pt-6 px-6">Score</th>
+          <th class="pb-4 pt-6 px-6" colspan="2">Rating</th>
+        </tr>
+        <tr v-for="performance in surveyor.performances" :key="performance.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+          <td class="border-t">
+            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/performances/${performance.id}/edit`">
+              {{ getMonthName(performance.month) }}
+              <icon v-if="performance.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+            </Link>
+          </td>
+          <td class="border-t">
+            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/performances/${performance.id}/edit`">
+              {{ performance.productivity }} %
+              <icon v-if="performance.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+            </Link>
+          </td>
+          <td class="border-t">
+            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/performances/${performance.id}/edit`">
+              {{ performance.quality }} %
+              <icon v-if="performance.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+            </Link>
+          </td>
+          <td class="border-t">
+            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/performances/${performance.id}/edit`">
+              {{ performance.efficiency }} %
+              <icon v-if="performance.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+            </Link>
+          </td>
+          <td class="border-t">
+            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/performances/${performance.id}/edit`">
+              {{ performance.score }} %
+              <icon v-if="performance.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+            </Link>
+          </td>
+          <td class="border-t">
+            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/performances/${performance.id}/edit`">
+              {{ getRating(performance.score) }}
+              <icon v-if="performance.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+            </Link>
+          </td>
+          <td class="border-t">
+            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/performances/${performance.id}/edit`">
+              {{ performance.name }}
+              <icon v-if="performance.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+            </Link>
+          </td>
+          <td class="w-px border-t">
+            <Link class="flex items-center px-4" :href="`/performances/${performance.id}/edit`" tabindex="-1">
+              <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
+            </Link>
+          </td>
+        </tr>
+        <tr v-if="surveyor.performances.length === 0">
+          <td class="px-6 py-4 border-t" colspan="4">No performance found.</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2 class="mt-12 text-2xl font-bold">Tasks</h2>
+    <div class="mt-6 bg-white rounded shadow overflow-x-auto">
+      <table class="w-full whitespace-nowrap">
+        <tr class="text-left font-bold">
+          <th class="pb-4 pt-6 px-6" colspan="2">Name</th>
+        </tr>
+        <tr v-for="task in surveyor.tasks" :key="task.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+          <td class="border-t">
+            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/tasks/${task.id}/edit`">
+              {{ task.name }}
+              <icon v-if="task.deleted_at" name="trash" class="flex-shrink-0 ml-2 w-3 h-3 fill-gray-400" />
+            </Link>
+          </td>
+          <td class="w-px border-t">
+            <Link class="flex items-center px-4" :href="`/tasks/${task.id}/edit`" tabindex="-1">
+              <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
+            </Link>
+          </td>
+        </tr>
+        <tr v-if="surveyor.tasks.length === 0">
+          <td class="px-6 py-4 border-t" colspan="4">No task found.</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+} from 'chart.js'
+import { Line } from 'vue-chartjs'
 import { Head, Link } from '@inertiajs/inertia-vue3'
 import Layout from '@/Shared/Layout'
 import TextInput from '@/Shared/TextInput'
 import SelectInput from '@/Shared/SelectInput'
 import LoadingButton from '@/Shared/LoadingButton'
 import TrashedMessage from '@/Shared/TrashedMessage'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+)
 
 export default {
   components: {
@@ -41,15 +168,30 @@ export default {
     SelectInput,
     TextInput,
     TrashedMessage,
+    Line,
   },
   layout: Layout,
   props: {
     surveyor: Object,
     branches: Array,
+    performanceData: Array,
   },
   remember: 'form',
   data() {
     return {
+      dataLine: {
+        labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+        datasets: [
+          {
+            label: 'Data Performance Surveyor',
+            backgroundColor: '#f87979',
+            data: this.performanceData,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+      },
       form: this.$inertia.form({
         name: this.surveyor.name,
         branch_id: this.surveyor.branch_id,
@@ -68,6 +210,22 @@ export default {
     restore() {
       if (confirm('Are you sure you want to restore this surveyor?')) {
         this.$inertia.put(`/surveyors/${this.surveyor.id}/restore`)
+      }
+    },
+    getMonthName(monthNumber) {
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December',
+      ]
+      return months[monthNumber - 1]
+    },
+    getRating(score) {
+      if (score >= 100) {
+        return 'Excelent'
+      } else if (score > 70 && score <= 99) {
+        return 'Good'
+      } else if (score <= 70) {
+        return 'Bad'
       }
     },
   },

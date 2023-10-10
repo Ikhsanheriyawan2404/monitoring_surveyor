@@ -18,11 +18,6 @@ class Surveyor extends Model
         return $this->where($field ?? 'id', $value)->withTrashed()->firstOrFail();
     }
 
-    public function branch()
-    {
-        return $this->belongsTo(Branch::class);
-    }
-
     public function scopeOrderByName($query)
     {
         $query->orderBy('name');
@@ -44,5 +39,20 @@ class Surveyor extends Model
                 $query->onlyTrashed();
             }
         });
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function performances()
+    {
+        return $this->hasMany(SurveyorPerformance::class);
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Account;
-use App\Models\Branch;
-use App\Models\Contact;
-use App\Models\Organization;
-use App\Models\Surveyor;
+use App\Models\Task;
 use App\Models\User;
+use App\Models\Branch;
+use App\Models\Account;
+use App\Models\Surveyor;
 use Illuminate\Database\Seeder;
+use Faker\Factory as FakerFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $faker = FakerFactory::create();
+
         $account = Account::create(['name' => 'Acme Corporation']);
 
         User::factory()->create([
@@ -34,11 +36,47 @@ class DatabaseSeeder extends Seeder
 
         $branches = Branch::factory(12)->create();
 
+        $surveyors = [];
         for ($i = 0; $i < 100; $i++) {
-            Surveyor::create([
+            $surveyors[] = Surveyor::create([
                 'branch_id' => $branches->random()->id,
-                'name' => 'Ikhsan Heriyawan',
+                'name' => $faker->name(),
             ]);
         }
+
+        for ($i = 0; $i < 1000; $i++) {
+            Task::create([
+                'surveyor_id' => $surveyors[array_rand($surveyors)]->id,
+                'name' => 'Task ' . $i,
+            ]);
+        }
+
+        for ($i = 0; $i < 100; $i++) {
+            $surveyor = $surveyors[$i];
+            for ($j = 0; $j < 12; $j++) {
+                $efficiency = rand(60, 100);
+                $productivity = rand(60, 100);
+                $quality = rand(60, 100);
+
+                $score = $this->rumus($efficiency, $productivity, $quality);
+
+                $surveyor->performances()->create([
+                    'efficiency' => $efficiency,
+                    'productivity' => $productivity,
+                    'quality' => $quality,
+                    'month' => $j + 1,
+                    'year' => 2023,
+                    'score' => $score,
+                ]);
+            }
+        }
+    }
+
+    public function rumus($efficiency, $productivity, $quality)
+    {
+        // (prod x 120%) + (quality x 120%) + (quality x 120%) + (effisiesni x 120%) / ((120% + 120% + 120%) x 120%)
+        $score = ($efficiency * 1.2) + ($productivity * 1.2) + ($quality * 1.2) /
+        $dibagi = (1.2 + 1.2 + 1.2) * 1.2;
+        return $score / $dibagi;
     }
 }

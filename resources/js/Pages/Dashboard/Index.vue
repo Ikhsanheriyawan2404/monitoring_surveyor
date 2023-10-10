@@ -7,22 +7,27 @@
         class="text-indigo-500 hover:text-orange-600 underline" href="https://inertiajs.com">Inertia.js</a> works.</p>
 
     <!-- Card Container -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Card 1 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
       <div class="bg-white rounded-lg shadow-md p-4">
         <!-- Card Content -->
         <h2 class="text-xl font-semibold mb-2">Jumlah Surveyor</h2>
         <p>{{ $page.props.totalSurveyor }}</p>
       </div>
 
-      <!-- Card 2 -->
       <div class="bg-white rounded-lg shadow-md p-4">
         <!-- Card Content -->
         <h2 class="text-xl font-semibold mb-2">Jumlah Survey</h2>
         <p>{{ $page.props.totalBranch }}</p>
       </div>
 
-      <!-- Card 3 -->
+      <div class="bg-white rounded-lg shadow-md p-4">
+        <!-- Card Content -->
+        <h2 class="text-xl font-semibold mb-2">Jumlah Tasks Surveyor</h2>
+        <p>{{ $page.props.totalTask }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-white rounded-lg shadow-md p-4">
         <!-- Card Content -->
         <h2 class="text-xl font-semibold mb-2">Bar Chart</h2>
@@ -31,7 +36,6 @@
         </div>
       </div>
 
-      <!-- Card 4 -->
       <div class="bg-white rounded-lg shadow-md p-4">
         <!-- Card Content -->
         <h2 class="text-xl font-semibold mb-2">Line Chart</h2>
