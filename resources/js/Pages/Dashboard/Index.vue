@@ -35,7 +35,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-white rounded-lg shadow-md p-4">
         <!-- Card Content -->
-        <h2 class="text-xl font-semibold mb-2">Bar Chart</h2>
+        <h2 class="text-xl font-semibold mb-2">Chart Master Data</h2>
         <div>
           <Bar :data="dataBar" :options="options" />
         </div>
@@ -43,7 +43,7 @@
 
       <div class="bg-white rounded-lg shadow-md p-4">
         <!-- Card Content -->
-        <h2 class="text-xl font-semibold mb-2">Pie Chart</h2>
+        <h2 class="text-xl font-semibold mb-2">Chart Total Rating Surveyors</h2>
         <div>
           <Pie :data="dataPie" :options="options" />
         </div>
@@ -94,6 +94,7 @@ export default {
     totalBranch: Number,
     totalSurveyor: Number,
     totalTask: Number,
+    totalCountAllCategoryRating: Array,
   },
   data() {
     return {
@@ -102,13 +103,13 @@ export default {
         datasets: [
           {
             backgroundColor: ['#00D8FF', '#41B883', '#DD1B16'],
-            data: [40, 20, 80]
+            data: this.totalCountAllCategoryRating,
           },
         ],
       },
       dataBar: {
-        labels: ['Branches', 'Surveyors', 'Tasks'],
-        datasets: [{label: 'Total Data Master', data: [this.totalBranch, this.totalSurveyor, this.totalTask] }],
+        labels: ['Surveyors', 'Tasks', 'Branches'],
+        datasets: [{label: 'Total Data Master', data: [this.totalSurveyor, this.totalTask, this.totalBranch], backgroundColor: ['#00D8FF', '#41B883', '#DD1B16']}],
       },
       options: {
         responsive: true,

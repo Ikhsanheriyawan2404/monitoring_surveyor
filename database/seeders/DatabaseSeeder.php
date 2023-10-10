@@ -54,9 +54,9 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 100; $i++) {
             $surveyor = $surveyors[$i];
             for ($j = 0; $j < 12; $j++) {
-                $efficiency = rand(60, 100);
-                $productivity = rand(60, 100);
-                $quality = rand(60, 100);
+                $efficiency = rand(60, 120);
+                $productivity = rand(60, 120);
+                $quality = rand(60, 120);
 
                 $score = $this->rumus($efficiency, $productivity, $quality);
 
@@ -74,8 +74,8 @@ class DatabaseSeeder extends Seeder
 
     public function rumus($efficiency, $productivity, $quality)
     {
-        // (prod x 120%) + (quality x 120%) + (quality x 120%) + (effisiesni x 120%) / ((120% + 120% + 120%) x 120%)
-        $score = ($efficiency * 1.2) + ($productivity * 1.2) + ($quality * 1.2) /
+        // (prod x 120%) + (quality x 120%) + (effisiesni x 120%) / ((120% + 120% + 120%) x 120%)
+        $score = ($efficiency * 1.2) + ($productivity * 1.2) + ($quality * 1.2);
         $dibagi = (1.2 + 1.2 + 1.2) * 1.2;
         return $score / $dibagi;
     }
