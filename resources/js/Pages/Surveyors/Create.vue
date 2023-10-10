@@ -9,7 +9,7 @@
       <form @submit.prevent="store">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
           <text-input v-model="form.name" :error="form.errors.name" class="pb-8 pr-6 w-full lg:w-1/2" label="Name" />
-          <select-input v-model="form.branch_id" :error="form.errors.branch_id" class="pb-8 pr-6 w-full lg:w-1/2" label="branch">
+          <select-input v-model="form.branch_id" :error="form.errors.branch_id" class="pb-8 pr-6 w-full lg:w-1/2" label="Branch">
             <option :value="null" />
             <option v-for="branch in branches" :key="branch.id" :value="branch.id">{{ branch.name }}</option>
           </select-input>

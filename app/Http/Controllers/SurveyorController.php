@@ -45,7 +45,7 @@ class SurveyorController extends Controller
         Surveyor::create(
             Request::validate([
                 'name' => ['required', 'max:255'],
-                'branch_id' => ['nullable', Rule::exists('branches', 'id')]
+                'branch_id' => ['required', Rule::exists('branches', 'id')]
             ])
         );
 
@@ -100,6 +100,7 @@ class SurveyorController extends Controller
             Request::validate([
                 'name' => ['required', 'max:255'],
                 'branch_id' => [
+                    'required',
                     Rule::exists('branches', 'id'),
                 ],
             ])
@@ -112,13 +113,13 @@ class SurveyorController extends Controller
     {
         $surveyor->delete();
 
-        return Redirect::back()->with('success', 'surveyor deleted.');
+        return Redirect::back()->with('success', 'Surveyor deleted.');
     }
 
     public function restore(Surveyor $surveyor)
     {
         $surveyor->restore();
 
-        return Redirect::back()->with('success', 'surveyor restored.');
+        return Redirect::back()->with('success', 'Surveyor restored.');
     }
 }

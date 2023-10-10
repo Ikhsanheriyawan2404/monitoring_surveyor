@@ -2,7 +2,7 @@
   <div>
     <Head :title="`${form.name}`" />
     <h1 class="mb-8 text-3xl font-bold">
-      <Link class="text-indigo-400 hover:text-indigo-600" href="/tasks">Task</Link>
+      <Link class="text-indigo-400 hover:text-indigo-600" href="/tasks">Tasks</Link>
       <span class="text-indigo-400 font-medium">/</span>
       {{ form.name }}
     </h1>
@@ -12,13 +12,13 @@
       <form @submit.prevent="update">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
           <text-input v-model="form.name" :error="form.errors.name" class="pb-8 pr-6 w-full lg:w-1/2" label="Name" />
-          <select-input v-model="form.surveyor_id" :error="form.errors.surveyor_id" class="pb-8 pr-6 w-full lg:w-1/2" label="surveyor">
+          <select-input v-model="form.surveyor_id" :error="form.errors.surveyor_id" class="pb-8 pr-6 w-full lg:w-1/2" label="Surveyor">
             <option :value="null" />
             <option v-for="surveyor in surveyors" :key="surveyor.id" :value="surveyor.id">{{ surveyor.name }}</option>
           </select-input>
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
-          <button v-if="!task.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete surveyor</button>
+          <button v-if="!task.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete Task</button>
           <loading-button :loading="form.processing" class="btn-indigo ml-auto" type="submit">Update Task</loading-button>
         </div>
       </form>

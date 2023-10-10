@@ -15,7 +15,7 @@
         </div>
       </Link>
 
-      <Link href="/surveyors">
+      <Link href="/branches">
         <div class="bg-white rounded-lg shadow-md p-4">
           <!-- Card Content -->
           <h2 class="text-xl font-semibold mb-2">Total Branches</h2>
@@ -43,9 +43,9 @@
 
       <div class="bg-white rounded-lg shadow-md p-4">
         <!-- Card Content -->
-        <h2 class="text-xl font-semibold mb-2">Line Chart</h2>
+        <h2 class="text-xl font-semibold mb-2">Pie Chart</h2>
         <div>
-          <Line :data="dataLine" :options="options" />
+          <Pie :data="dataPie" :options="options" />
         </div>
       </div>
     </div>
@@ -64,8 +64,9 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  ArcElement,
 } from 'chart.js'
-import { Bar, Line } from 'vue-chartjs'
+import { Bar, Pie } from 'vue-chartjs'
 import { Head, Link } from '@inertiajs/inertia-vue3'
 import Layout from '@/Shared/Layout'
 
@@ -78,14 +79,15 @@ ChartJS.register(
   Legend,
   PointElement,
   LineElement,
+  ArcElement,
 )
 
 export default {
   components: {
     Head,
     Bar,
-    Line,
     Link,
+    Pie,
   },
   layout: Layout,
   props: {
@@ -95,23 +97,22 @@ export default {
   },
   data() {
     return {
-      dataLine: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      dataPie: {
+        labels: ['Excelent', 'Good', 'Bad'],
         datasets: [
           {
-            label: 'Rating Surveyor',
-            backgroundColor: '#f87979',
-            data: [40, 39, 10, 40, 39, 80, 40],
+            backgroundColor: ['#00D8FF', '#41B883', '#DD1B16'],
+            data: [40, 20, 80]
           },
         ],
       },
       dataBar: {
-        label: 'Total Data Master',
         labels: ['Branches', 'Surveyors', 'Tasks'],
-        datasets: [{ data: [this.totalBranch, this.totalSurveyor, this.totalTask] }],
+        datasets: [{label: 'Total Data Master', data: [this.totalBranch, this.totalSurveyor, this.totalTask] }],
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
       },
     }
   },

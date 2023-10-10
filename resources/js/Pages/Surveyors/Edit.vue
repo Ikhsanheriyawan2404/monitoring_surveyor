@@ -2,7 +2,7 @@
   <div>
     <Head :title="`${form.name}`" />
     <h1 class="mb-8 text-3xl font-bold">
-      <Link class="text-indigo-400 hover:text-indigo-600" href="/surveyors">Surveyor</Link>
+      <Link class="text-indigo-400 hover:text-indigo-600" href="/surveyors">Surveyors</Link>
       <span class="text-indigo-400 font-medium">/</span>
       {{ form.name }}
     </h1>
@@ -143,6 +143,7 @@ import {
 } from 'chart.js'
 import { Line } from 'vue-chartjs'
 import { Head, Link } from '@inertiajs/inertia-vue3'
+import Icon from '@/Shared/Icon'
 import Layout from '@/Shared/Layout'
 import TextInput from '@/Shared/TextInput'
 import SelectInput from '@/Shared/SelectInput'
@@ -163,6 +164,7 @@ ChartJS.register(
 export default {
   components: {
     Head,
+    Icon,
     Link,
     LoadingButton,
     SelectInput,

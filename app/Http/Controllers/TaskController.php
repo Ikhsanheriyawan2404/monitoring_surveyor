@@ -91,6 +91,6 @@ class TaskController extends Controller
     {
         $task->restore();
 
-        return Redirect::back()->with('success', 'task restored.');
+        return Redirect::back()->with('success', 'Task restored.');
     }
 }
