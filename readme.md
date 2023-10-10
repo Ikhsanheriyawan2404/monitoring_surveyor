@@ -1,7 +1,7 @@
-# Ping CRM
+# Inertia + Vue
 
+Official clone from https://github.com/inertiajs/pingcrm.git
 A demo application to illustrate how Inertia.js works.
-
 ![](https://raw.githubusercontent.com/inertiajs/pingcrm/master/screenshot.png)
 
 ## Installation
@@ -9,8 +9,8 @@ A demo application to illustrate how Inertia.js works.
 Clone the repo locally:
 
 ```sh
-git clone https://github.com/inertiajs/pingcrm.git pingcrm
-cd pingcrm
+git clone https://github.com/ikhsanheriyawan2404/monitoring_survey.git your_name_project
+cd your_name_project
 ```
 
 Install PHP dependencies:
@@ -49,16 +49,10 @@ Create an SQLite database. You can also use another database (MySQL, Postgres), 
 touch database/database.sqlite
 ```
 
-Run database migrations:
+Run database migrations & seeders:
 
 ```sh
-php artisan migrate
-```
-
-Run database seeder:
-
-```sh
-php artisan db:seed
+php artisan migrate:fresh --seed
 ```
 
 Run the dev server (the output will give the address):
@@ -71,11 +65,3 @@ You're ready to go! Visit Ping CRM in your browser, and login with:
 
 - **Username:** johndoe@example.com
 - **Password:** secret
-
-## Running tests
-
-To run the Ping CRM tests, run:
-
-```
-phpunit
-```
