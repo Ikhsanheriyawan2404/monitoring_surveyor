@@ -3,28 +3,33 @@
 
     <Head title="Dashboard" />
     <h1 class="mb-8 text-3xl font-bold">Dashboard</h1>
-    <p class="mb-8 leading-normal">Hey there! Welcome to PMS, a demo app designed to help illustrate how <a
-        class="text-indigo-500 hover:text-orange-600 underline" href="https://inertiajs.com">Inertia.js</a> works.</p>
+    <p class="mb-8 leading-normal">Hey there! Welcome to PMS. This is a APP built using Vue and Inertia.</p>
 
     <!-- Card Container -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
-      <div class="bg-white rounded-lg shadow-md p-4">
-        <!-- Card Content -->
-        <h2 class="text-xl font-semibold mb-2">Jumlah Surveyor</h2>
-        <p>{{ $page.props.totalSurveyor }}</p>
-      </div>
+      <Link href="/surveyors">
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <!-- Card Content -->
+          <h2 class="text-xl font-semibold mb-2">Total Surveyors</h2>
+          <p>{{ $page.props.totalSurveyor }}</p>
+        </div>
+      </Link>
 
-      <div class="bg-white rounded-lg shadow-md p-4">
-        <!-- Card Content -->
-        <h2 class="text-xl font-semibold mb-2">Jumlah Survey</h2>
-        <p>{{ $page.props.totalBranch }}</p>
-      </div>
+      <Link href="/surveyors">
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <!-- Card Content -->
+          <h2 class="text-xl font-semibold mb-2">Total Branches</h2>
+          <p>{{ $page.props.totalBranch }}</p>
+        </div>
+      </Link>
 
-      <div class="bg-white rounded-lg shadow-md p-4">
-        <!-- Card Content -->
-        <h2 class="text-xl font-semibold mb-2">Jumlah Tasks Surveyor</h2>
-        <p>{{ $page.props.totalTask }}</p>
-      </div>
+      <Link href="/tasks">
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <!-- Card Content -->
+          <h2 class="text-xl font-semibold mb-2">Total Tasks Surveyor</h2>
+          <p>{{ $page.props.totalTask }}</p>
+        </div>
+      </Link>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -61,7 +66,7 @@ import {
   LineElement,
 } from 'chart.js'
 import { Bar, Line } from 'vue-chartjs'
-import { Head } from '@inertiajs/inertia-vue3'
+import { Head, Link } from '@inertiajs/inertia-vue3'
 import Layout from '@/Shared/Layout'
 
 ChartJS.register(
@@ -80,26 +85,30 @@ export default {
     Head,
     Bar,
     Line,
+    Link,
   },
   layout: Layout,
+  props: {
+    totalBranch: Number,
+    totalSurveyor: Number,
+    totalTask: Number,
+  },
   data() {
     return {
-      // dataLine: {
-      //   return chartConfig
-      // },
       dataLine: {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [
           {
-            label: 'Data One',
+            label: 'Rating Surveyor',
             backgroundColor: '#f87979',
             data: [40, 39, 10, 40, 39, 80, 40],
           },
         ],
       },
       dataBar: {
-        labels: ['January', 'February', 'March'],
-        datasets: [{ data: [40, 20, 12] }],
+        label: 'Total Data Master',
+        labels: ['Branches', 'Surveyors', 'Tasks'],
+        datasets: [{ data: [this.totalBranch, this.totalSurveyor, this.totalTask] }],
       },
       options: {
         responsive: true,

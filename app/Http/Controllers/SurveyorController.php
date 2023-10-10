@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Surveyor;
+use Inertia\Inertia;
 use App\Models\SurveyorPerformance;
 use Illuminate\Support\Facades\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 

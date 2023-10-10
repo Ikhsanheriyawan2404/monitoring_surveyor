@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->integer("surveyor_id");
             $table->string("name");
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('surveyor_id')->references('id')->on('surveyors')->onDelete('cascade');
         });
