@@ -7,6 +7,7 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\SurveyorController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\SurveyorPerformanceController;
 use Illuminate\Support\Facades\Route;
 
 // Auth
@@ -146,6 +147,36 @@ Route::delete('tasks/{task}', [TaskController::class, 'destroy'])
 
 Route::put('tasks/{task}/restore', [TaskController::class, 'restore'])
     ->name('tasks.restore')
+    ->middleware('auth');
+
+// Surveyor Performance
+
+Route::get('performances', [SurveyorPerformanceController::class, 'index'])
+    ->name('performances')
+    ->middleware('auth');
+
+Route::get('performances/create', [SurveyorPerformanceController::class, 'create'])
+    ->name('performances.create')
+    ->middleware('auth');
+
+Route::post('performances', [SurveyorPerformanceController::class, 'store'])
+    ->name('performances.store')
+    ->middleware('auth');
+
+Route::get('performances/{performance}/edit', [SurveyorPerformanceController::class, 'edit'])
+    ->name('performances.edit')
+    ->middleware('auth');
+
+Route::put('performances/{performance}', [SurveyorPerformanceController::class, 'update'])
+    ->name('performances.update')
+    ->middleware('auth');
+
+Route::delete('performances/{performance}', [SurveyorPerformanceController::class, 'destroy'])
+    ->name('performances.destroy')
+    ->middleware('auth');
+
+Route::put('performances/{performance}/restore', [SurveyorPerformanceController::class, 'restore'])
+    ->name('performances.restore')
     ->middleware('auth');
 
 // Images

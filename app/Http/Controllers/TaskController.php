@@ -19,7 +19,7 @@ class TaskController extends Controller
                 ->with('surveyor')
                 ->orderByName()
                 ->filter(Request::only('search', 'trashed'))
-                ->paginate(100)
+                ->paginate(10)
                 ->withQueryString()
                 ->through(fn ($task) => [
                     'id' => $task->id,
