@@ -37,7 +37,7 @@
           <td class="border-t">
             <Link class="flex items-center px-6 py-4" :href="`/performances/${performance.id}/edit`" tabindex="-1">
               <div v-if="performance.month">
-                {{ performance.month }}
+                {{ getMonthName(performance.month) }}
               </div>
             </Link>
           </td>
@@ -71,7 +71,7 @@
           </td>
           <td class="border-t">
             <Link class="flex items-center px-6 py-4" :href="`/performances/${performance.id}/edit`" tabindex="-1">
-              {{ performance.score }}
+              {{ getRating(performance.score) }}
             </Link>
           </td>
           <td class="w-px border-t">
@@ -131,6 +131,22 @@ export default {
   methods: {
     reset() {
       this.form = mapValues(this.form, () => null)
+    },
+    getMonthName(monthNumber) {
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December',
+      ]
+      return months[monthNumber - 1]
+    },
+    getRating(score) {
+      if (score >= 100) {
+        return 'Excelent'
+      } else if (score > 70 && score <= 99) {
+        return 'Good'
+      } else if (score <= 70) {
+        return 'Bad'
+      }
     },
   },
 }

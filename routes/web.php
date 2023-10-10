@@ -163,6 +163,11 @@ Route::post('performances', [SurveyorPerformanceController::class, 'store'])
     ->name('performances.store')
     ->middleware('auth');
 
+
+Route::post('performances/surveyors/', [SurveyorPerformanceController::class, 'storePerformance'])
+    ->name('performances.surveyors.store')
+    ->middleware('auth');
+
 Route::get('performances/{performance}/edit', [SurveyorPerformanceController::class, 'edit'])
     ->name('performances.edit')
     ->middleware('auth');

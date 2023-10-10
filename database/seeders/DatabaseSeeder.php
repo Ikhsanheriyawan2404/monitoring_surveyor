@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         $faker = FakerFactory::create();
 
-        $account = Account::create(['name' => 'Acme Corporation']);
+        $account = Account::create(['name' => 'Ikhsan Kurnia Corporation Official']);
 
         User::factory()->create([
             'account_id' => $account->id,

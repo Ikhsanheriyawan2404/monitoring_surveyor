@@ -6,7 +6,6 @@ use App\Models\Branch;
 use App\Models\Surveyor;
 use App\Models\SurveyorPerformance;
 use App\Models\Task;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -38,7 +37,7 @@ class DashboardController extends Controller
         }
 
         $totalCountAllCategoryRating = [$excelent, $good, $bad];
-        
+
         return Inertia::render('Dashboard/Index', [
             'totalBranch' => $totalBranch,
             'totalSurveyor' => $totalSurveyor,

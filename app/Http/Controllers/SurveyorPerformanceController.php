@@ -46,14 +46,40 @@ class SurveyorPerformanceController extends Controller
 
     public function store()
     {
-        SurveyorPerformance::create(
-            Request::validate([
-                'name' => ['required', 'max:255'],
-                'branch_id' => ['required', Rule::exists('branches', 'id')]
-            ])
-        );
+        $request = Request::validate([
+            'month' => ['required', 'numeric'],
+            'year' => ['required', 'numeric'],
+            'efficiency' => ['required', 'numeric'],
+            'productivity' => ['required', 'numeric'],
+            'quality' => ['required', 'numeric'],
+            'surveyor_id' => ['required', Rule::exists('surveyors', 'id')]
+        ]);
+
+        $score = $this->calculateScore($request['efficiency'], $request['productivity'], $request['quality']);
+        $request['score'] = $score;
+
+        SurveyorPerformance::create($request);
 
         return Redirect::route('performances')->with('success', 'Performance created.');
+    }
+
+    public function storePerformance()
+    {
+        $request = Request::validate([
+            'month' => ['required', 'numeric'],
+            'year' => ['required', 'numeric'],
+            'efficiency' => ['required', 'numeric'],
+            'productivity' => ['required', 'numeric'],
+            'quality' => ['required', 'numeric'],
+            'surveyor_id' => [Rule::exists('surveyors', 'id')]
+        ]);
+
+        $score = $this->calculateScore($request['efficiency'], $request['productivity'], $request['quality']);
+        $request['score'] = $score;
+
+        SurveyorPerformance::create($request);
+
+        return Redirect::back()->with('success', 'Performance created.');
     }
 
     public function edit(SurveyorPerformance $performance)
@@ -61,12 +87,15 @@ class SurveyorPerformanceController extends Controller
         return Inertia::render('SurveyorPerformances/Edit', [
             'performance' => [
                 'id' => $performance->id,
+                'surveyor_id' => $performance->surveyor_id,
                 'month' => $performance->month,
                 'year' => $performance->year,
                 'productivity' => $performance->productivity,
                 'quality' => $performance->quality,
-                'effisiency' => $performance->effisiency,
+                'efficiency' => $performance->efficiency,
+                'score' => $performance->score,
                 'created_at' => $performance->created_at,
+                'deleted_at' => $performance->deleted_at,
                 'surveyor' => $performance->surveyor->only('name'),
             ],
             'surveyors' => Surveyor::select()
@@ -79,11 +108,14 @@ class SurveyorPerformanceController extends Controller
     {
         $surveyor->update(
             Request::validate([
-                'name' => ['required', 'max:255'],
-                'branch_id' => [
-                    'required',
-                    Rule::exists('branches', 'id'),
-                ],
+                Request::validate([
+                    'month' => ['required', 'numeric'],
+                    'year' => ['required', 'numeric'],
+                    'efficiency' => ['required', 'numeric'],
+                    'productivity' => ['required', 'numeric'],
+                    'quality' => ['required', 'numeric'],
+                    'surveyor_id' => ['required', Rule::exists('surveyors', 'id')]
+                ])
             ])
         );
 
@@ -102,5 +134,12 @@ class SurveyorPerformanceController extends Controller
         $performance->restore();
 
         return Redirect::back()->with('success', 'Performance restored.');
+    }
+
+    private function calculateScore($efficiency, $productivity, $quality)
+    {
+        $score = ($efficiency * 1.2) + ($productivity * 1.2) + ($quality * 1.2);
+        $dibagi = (1.2 + 1.2 + 1.2) * 1.2;
+        return $score / $dibagi;
     }
 }

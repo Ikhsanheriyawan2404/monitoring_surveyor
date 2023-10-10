@@ -25,6 +25,16 @@
     </div>
 
     <h2 class="mt-12 text-2xl font-bold">Performance</h2>
+    <button class="btn-indigo" @click="modalNew = true">
+        Create <span class="hidden md:inline">Performance</span>
+      </button>
+      <modal
+        :open="modalNew"
+        title="Create Performance"
+        @close="modalNew = false"
+      >
+        <new-performance :surveyor-id="surveyor.id" @success="modalNew = false" />
+      </modal>
     <!-- Card Container -->
     <div class="mt-6 grid grid-cols-1 md:grid-cols-1 gap-4 mb-3">
       <div class="bg-white rounded-lg shadow-md p-4">
@@ -36,7 +46,7 @@
       </div>
     </div>
 
-    <h2 class="mt-12 text-2xl font-bold">Data Performance Perbulan</h2>
+    <h2 class="mt-12 text-2xl font-bold">Data Performance : {{ surveyor.name }}</h2>
     <div class="mt-6 bg-white rounded shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
         <tr class="text-left font-bold">
@@ -149,6 +159,8 @@ import TextInput from '@/Shared/TextInput'
 import SelectInput from '@/Shared/SelectInput'
 import LoadingButton from '@/Shared/LoadingButton'
 import TrashedMessage from '@/Shared/TrashedMessage'
+import Modal from '@/Shared/Modal.vue';
+import NewPerformance from './_NewPerformance.vue';
 
 ChartJS.register(
   CategoryScale,
@@ -171,6 +183,8 @@ export default {
     TextInput,
     TrashedMessage,
     Line,
+    Modal,
+    NewPerformance,
   },
   layout: Layout,
   props: {
@@ -182,7 +196,7 @@ export default {
   data() {
     return {
       dataLine: {
-        labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [
           {
             label: 'Data Performance Surveyor',
@@ -198,6 +212,7 @@ export default {
         name: this.surveyor.name,
         branch_id: this.surveyor.branch_id,
       }),
+      modalNew: false,
     }
   },
   methods: {

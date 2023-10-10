@@ -26,6 +26,7 @@ class CreateSurveyorPerformancesTable extends Migration
             $table->unique(['surveyor_id', 'month', 'year']);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
