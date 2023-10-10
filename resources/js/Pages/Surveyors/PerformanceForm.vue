@@ -5,6 +5,14 @@
         v-model="form.surveyor_id"
         type="hidden"
       />
+      <select-input
+        v-model="form.month"
+        :error="form.errors.month"
+        class="pb-8 pr-6 w-full lg:w-1/2"
+        label="Month">
+        <option :value="null" />
+        <option v-for="(monthName, monthNumber) in months" :key="monthNumber" :value="monthNumber">{{ monthName }}</option>
+      </select-input>
       <text-input
         v-model="form.month"
         :error="form.errors.month"
@@ -47,14 +55,20 @@
 
 <script>
 import TextInput from '@/Shared/TextInput.vue'
+import SelectInput from '@/Shared/SelectInput.vue'
 
 export default {
   components: {
     TextInput,
+    SelectInput,
   },
   props: {
     modelValue: {
       type: Object,
+      required: true,
+    },
+    months: {
+      type: Array,
       required: true,
     },
   },

@@ -8,7 +8,10 @@
     <div class="max-w-3xl bg-white rounded-md shadow overflow-hidden">
       <form @submit.prevent="store">
         <div class="flex flex-wrap -mb-8 -mr-6 p-8">
-          <text-input v-model="form.month" :error="form.errors.month" class="pb-8 pr-6 w-full lg:w-1/2" label="Month" type="number" />
+          <select-input v-model="form.month" :error="form.errors.month" class="pb-8 pr-6 w-full lg:w-1/2" label="Month">
+            <option :value="null" />
+            <option v-for="(monthName, monthNumber) in months" :key="monthNumber" :value="monthNumber">{{ monthName }}</option>
+          </select-input>
           <text-input v-model="form.year" :error="form.errors.year" class="pb-8 pr-6 w-full lg:w-1/2" label="Year" type="number" />
           <text-input v-model="form.quality" :error="form.errors.quality" class="pb-8 pr-6 w-full lg:w-1/2" label="Quality" type="number" />
           <text-input v-model="form.productivity" :error="form.errors.productivity" class="pb-8 pr-6 w-full lg:w-1/2" label="Productivity" type="number" />
@@ -44,6 +47,7 @@ export default {
   layout: Layout,
   props: {
     surveyors: Array,
+    months: Array,
   },
   remember: 'form',
   data() {

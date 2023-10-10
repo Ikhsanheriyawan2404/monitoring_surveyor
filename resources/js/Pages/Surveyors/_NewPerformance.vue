@@ -24,10 +24,10 @@ export default {
     PerformanceForm,
   },
   remember: 'form',
-  emits: ['success'],
   props: {
     surveyorId: Number,
   },
+  emits: ['success'],
   data() {
     return {
       form: this.$inertia.form({
