@@ -33,7 +33,7 @@
         title="Create Performance"
         @close="modalNew = false"
       >
-        <new-performance :surveyor-id="surveyor.id" @success="modalNew = false" />
+        <new-performance :surveyor-id="surveyor.id" :months="months" @success="modalNew = false" />
       </modal>
     <!-- Card Container -->
     <div class="mt-6 grid grid-cols-1 md:grid-cols-1 gap-4 mb-3">
@@ -191,6 +191,7 @@ export default {
     surveyor: Object,
     branches: Array,
     performanceData: Array,
+    months: Array,
   },
   remember: 'form',
   data() {
@@ -199,7 +200,7 @@ export default {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [
           {
-            label: 'Data Performance Surveyor',
+            label: 'Data Performance Surveyor ' + this.surveyor.name,
             backgroundColor: '#f87979',
             data: this.performanceData,
           },

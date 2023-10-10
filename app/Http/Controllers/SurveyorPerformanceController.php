@@ -63,11 +63,11 @@ class SurveyorPerformanceController extends Controller
     public function store()
     {
         $request = Request::validate([
-            'month' => ['required', 'numeric'],
-            'year' => ['required', 'numeric'],
-            'efficiency' => ['required', 'numeric'],
-            'productivity' => ['required', 'numeric'],
-            'quality' => ['required', 'numeric'],
+            'month' => ['required', 'numeric', 'between:1,12'],
+            'year' => ['required', 'numeric', 'date_format:Y'],
+            'efficiency' => ['required', 'numeric', 'between:1,120'],
+            'productivity' => ['required', 'numeric', 'between:1,120'],
+            'quality' => ['required', 'numeric', 'between:1,120'],
             'surveyor_id' => ['required', Rule::exists('surveyors', 'id')]
         ]);
 
@@ -82,11 +82,11 @@ class SurveyorPerformanceController extends Controller
     public function storePerformance()
     {
         $request = Request::validate([
-            'month' => ['required', 'numeric'],
-            'year' => ['required', 'numeric'],
-            'efficiency' => ['required', 'numeric'],
-            'productivity' => ['required', 'numeric'],
-            'quality' => ['required', 'numeric'],
+            'month' => ['required', 'numeric', 'between:1,12'],
+            'year' => ['required', 'numeric', 'date_format:Y'],
+            'efficiency' => ['required', 'numeric', 'between:1,120'],
+            'productivity' => ['required', 'numeric', 'between:1,120'],
+            'quality' => ['required', 'numeric', 'between:1,120'],
             'surveyor_id' => [Rule::exists('surveyors', 'id')]
         ]);
 
@@ -126,11 +126,11 @@ class SurveyorPerformanceController extends Controller
         $surveyor->update(
             Request::validate([
                 Request::validate([
-                    'month' => ['required', 'numeric'],
-                    'year' => ['required', 'numeric'],
-                    'efficiency' => ['required', 'numeric'],
-                    'productivity' => ['required', 'numeric'],
-                    'quality' => ['required', 'numeric'],
+                    'month' => ['required', 'numeric', 'between:1,12'],
+                    'year' => ['required', 'numeric', 'date_format:Y'],
+                    'efficiency' => ['required', 'numeric', 'between:1,120'],
+                    'productivity' => ['required', 'numeric', 'between:1,120'],
+                    'quality' => ['required', 'numeric', 'between:1,120'],
                     'surveyor_id' => ['required', Rule::exists('surveyors', 'id')]
                 ])
             ])

@@ -12,6 +12,21 @@ use Illuminate\Validation\Rule;
 
 class SurveyorController extends Controller
 {
+    public $months = [
+        1 => 'January',
+        2 => 'February',
+        3 => 'March',
+        4 => 'April',
+        5 => 'May',
+        6 => 'June',
+        7 => 'July',
+        8 => 'August',
+        9 => 'September',
+        10 => 'October',
+        11 => 'November',
+        12 => 'December',
+    ];
+
     public function index()
     {
         return Inertia::render('Surveyors/Index', [
@@ -54,19 +69,15 @@ class SurveyorController extends Controller
 
     public function edit(Surveyor $surveyor)
     {
-        $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-        $performanceData = []; // Ini akan berisi data skor performa untuk setiap bulan
+        $performanceData = [];
 
-        foreach ($months as $month) {
-            // Mengambil data performa surveyor berdasarkan bulan
+        foreach ($this->months as $key => $month) {
             $performance = SurveyorPerformance::select()
                 ->where('surveyor_id', $surveyor->id)
-                ->where('month', $month)->get();
+                ->where('month', $key)->get();
 
-            // Menghitung total skor untuk bulan tersebut
             $totalScore = $performance->sum('score');
 
-            // Menambahkan data skor ke dalam array performanceData
             $performanceData[] = $totalScore;
         }
 
@@ -91,6 +102,7 @@ class SurveyorController extends Controller
                 ->orderBy('name')
                 ->get(),
             'performanceData' => $performanceData,
+            'months' => $this->months,
         ]);
     }
 

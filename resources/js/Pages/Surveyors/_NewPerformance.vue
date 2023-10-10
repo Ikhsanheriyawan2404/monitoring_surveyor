@@ -1,5 +1,5 @@
 <template>
-  <performance-form v-model="form" class="max-w-3xl bg-white" @submit="submit">
+  <performance-form :months="months" v-model="form" class="max-w-3xl bg-white" @submit="submit">
     <div
       class="flex items-center justify-end border-t border-gray-200 bg-gray-100 px-8 py-4"
     >
@@ -26,12 +26,13 @@ export default {
   remember: 'form',
   props: {
     surveyorId: Number,
+    months: Array,
   },
   emits: ['success'],
   data() {
     return {
       form: this.$inertia.form({
-        month: '',
+        month: this.months,
         year: '',
         efficiency: '',
         productivity: '',
