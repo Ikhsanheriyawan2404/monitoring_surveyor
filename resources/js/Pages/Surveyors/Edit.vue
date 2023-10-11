@@ -36,12 +36,19 @@
         <new-performance :surveyor-id="surveyor.id" :months="months" @success="modalNew = false" />
       </modal>
     <!-- Card Container -->
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-1 gap-4 mb-3">
+    <div class="mt-6 grid grid-cols-2 md:grid-cols-2 gap-4 mb-3">
       <div class="bg-white rounded-lg shadow-md p-4">
         <!-- Card Content -->
         <h2 class="text-xl font-semibold mb-2">Line Chart</h2>
         <div>
           <Line :data="dataLine" :options="options" />
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-md p-4">
+        <!-- Card Content -->
+        <h2 class="text-xl font-semibold mb-2">Line Chart</h2>
+        <div>
+          <Line :data="dataLine2" :options="options" />
         </div>
       </div>
     </div>
@@ -190,7 +197,8 @@ export default {
   props: {
     surveyor: Object,
     branches: Array,
-    performanceData: Array,
+    performanceComponent: Array,
+    performanceFinal: Array,
     months: Array,
   },
   remember: 'form',
@@ -200,9 +208,29 @@ export default {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [
           {
-            label: 'Data Performance Surveyor ' + this.surveyor.name,
+            label: 'Efficiency',
+            backgroundColor: '#00D8FF',
+            data: this.performanceComponent['efficiency'],
+          },
+          {
+            label: 'Productivity',
+            backgroundColor: '#DD1B16',
+            data: this.performanceComponent['productivity'],
+          },
+          {
+            label: 'Quality',
+            backgroundColor: '#41B883',
+            data: this.performanceComponent['quality'],
+          },
+        ],
+      },
+      dataLine2: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [
+          {
+            label: 'Data Performance Score : ' + this.surveyor.name,
             backgroundColor: '#f87979',
-            data: this.performanceData,
+            data: this.performanceFinal,
           },
         ],
       },

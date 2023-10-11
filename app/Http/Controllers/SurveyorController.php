@@ -71,7 +71,8 @@ class SurveyorController extends Controller
 
     public function edit(Surveyor $surveyor)
     {
-        $performanceData = [];
+        $performanceFinal = [];
+        $performanceComponent = [];
 
         foreach ($this->months as $key => $month) {
             $performance = SurveyorPerformance::select()
@@ -80,7 +81,10 @@ class SurveyorController extends Controller
 
             $totalScore = $performance->sum('score');
 
-            $performanceData[] = $totalScore;
+            $performanceComponent['efficiency'][] = $performance->sum('efficiency');
+            $performanceComponent['productivity'][] = $performance->sum('productivity');
+            $performanceComponent['quality'][] = $performance->sum('quality');
+            $performanceFinal[] = $totalScore;
         }
 
         return Inertia::render('Surveyors/Edit', [
@@ -103,7 +107,8 @@ class SurveyorController extends Controller
             'branches' => Branch::select()
                 ->orderBy('name')
                 ->get(),
-            'performanceData' => $performanceData,
+            'performanceFinal' => $performanceFinal,
+            'performanceComponent' => $performanceComponent,
             'months' => $this->months,
         ]);
     }
