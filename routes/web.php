@@ -95,6 +95,13 @@ Route::get('surveyors', [SurveyorController::class, 'index'])
     ->name('surveyors')
     ->middleware('auth');
 
+Route::get('surveyors/import', [SurveyorController::class, 'viewImport'])
+    ->middleware('auth');
+
+Route::post('surveyors/import', [SurveyorController::class, 'import'])
+    ->name('surveyors.import')
+    ->middleware('auth');
+
 Route::get('surveyors/create', [SurveyorController::class, 'create'])
     ->name('surveyors.create')
     ->middleware('auth');

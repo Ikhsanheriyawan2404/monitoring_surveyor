@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\SurveyorsImport;
 use App\Models\Branch;
 use App\Models\Surveyor;
 use Inertia\Inertia;
@@ -9,6 +10,7 @@ use App\Models\SurveyorPerformance;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SurveyorController extends Controller
 {
@@ -133,5 +135,21 @@ class SurveyorController extends Controller
         $surveyor->restore();
 
         return Redirect::back()->with('success', 'Surveyor restored.');
+    }
+
+    public function viewImport()
+    {
+        return Inertia::render('Surveyors/ImportExcel');
+    }
+
+    public function import()
+    {
+        Request::validate([
+            'file' => ['required', 'mimes:xlsx'],
+        ]);
+
+        Excel::import(new SurveyorsImport, Request::file('file'));
+
+        return Redirect::route('surveyors')->with('success', 'Surveyors imported.');
     }
 }

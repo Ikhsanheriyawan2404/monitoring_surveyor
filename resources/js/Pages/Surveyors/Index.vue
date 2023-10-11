@@ -2,6 +2,7 @@
   <div>
     <Head title="Surveyors" />
     <h1 class="mb-8 text-3xl font-bold">Surveyors</h1>
+
     <div class="flex items-center justify-between mb-6">
       <search-filter v-model="form.search" class="mr-4 w-full max-w-md" @reset="reset">
         <label class="block text-gray-700">Trashed:</label>
@@ -11,6 +12,10 @@
           <option value="only">Only Trashed</option>
         </select>
       </search-filter>
+      <Link class="btn-indigo" href="/surveyors/import">
+        <span>Import</span>
+        <span class="hidden md:inline">&nbsp;Surveyor</span>
+      </Link>
       <Link class="btn-indigo" href="/surveyors/create">
         <span>Create</span>
         <span class="hidden md:inline">&nbsp;Surveyor</span>
