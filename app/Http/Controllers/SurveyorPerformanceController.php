@@ -68,7 +68,16 @@ class SurveyorPerformanceController extends Controller
             'efficiency' => ['required', 'numeric', 'between:1,120'],
             'productivity' => ['required', 'numeric', 'between:1,120'],
             'quality' => ['required', 'numeric', 'between:1,120'],
-            'surveyor_id' => ['required', Rule::exists('surveyors', 'id')]
+            'surveyor_id' => [
+                'required',
+                Rule::exists('surveyors', 'id'),
+                Rule::unique('surveyor_performances')->where(function ($query) {
+                    return $query
+                        ->where('surveyor_id', request('surveyor_id'))
+                        ->where('month', request('month'))
+                        ->where('year', request('year'));
+                }),
+            ],
         ]);
 
         $score = $this->calculateScore($request['efficiency'], $request['productivity'], $request['quality']);
@@ -87,7 +96,16 @@ class SurveyorPerformanceController extends Controller
             'efficiency' => ['required', 'numeric', 'between:1,120'],
             'productivity' => ['required', 'numeric', 'between:1,120'],
             'quality' => ['required', 'numeric', 'between:1,120'],
-            'surveyor_id' => [Rule::exists('surveyors', 'id')]
+            'surveyor_id' => [
+                'required',
+                Rule::exists('surveyors', 'id'),
+                Rule::unique('surveyor_performances')->where(function ($query) {
+                    return $query
+                        ->where('surveyor_id', request('surveyor_id'))
+                        ->where('month', request('month'))
+                        ->where('year', request('year'));
+                }),
+            ],
         ]);
 
         $score = $this->calculateScore($request['efficiency'], $request['productivity'], $request['quality']);
@@ -121,9 +139,9 @@ class SurveyorPerformanceController extends Controller
         ]);
     }
 
-    public function update(Surveyor $surveyor)
+    public function update(SurveyorPerformance $performance)
     {
-        $surveyor->update(
+        $performance->update(
             Request::validate([
                 Request::validate([
                     'month' => ['required', 'numeric', 'between:1,12'],
@@ -131,7 +149,18 @@ class SurveyorPerformanceController extends Controller
                     'efficiency' => ['required', 'numeric', 'between:1,120'],
                     'productivity' => ['required', 'numeric', 'between:1,120'],
                     'quality' => ['required', 'numeric', 'between:1,120'],
-                    'surveyor_id' => ['required', Rule::exists('surveyors', 'id')]
+                    'surveyor_id' => [
+                        'required',
+                        Rule::exists('surveyors', 'id'),
+                        Rule::unique('surveyor_performances')
+                            ->ignore($performance->id)
+                            ->where(function ($query) {
+                                return $query
+                                    ->where('surveyor_id', request('surveyor_id'))
+                                    ->where('month', request('month'))
+                                    ->where('year', request('year'));
+                        }),
+                    ],
                 ])
             ])
         );
