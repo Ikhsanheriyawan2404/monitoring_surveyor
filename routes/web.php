@@ -140,6 +140,13 @@ Route::post('tasks', [TaskController::class, 'store'])
     ->name('tasks.store')
     ->middleware('auth');
 
+Route::get('tasks/import', [TaskController::class, 'viewImport'])
+    ->middleware('auth');
+
+Route::post('tasks/import', [TaskController::class, 'import'])
+    ->name('tasks.import')
+    ->middleware('auth');
+
 Route::get('tasks/{task}/edit', [TaskController::class, 'edit'])
     ->name('tasks.edit')
     ->middleware('auth');

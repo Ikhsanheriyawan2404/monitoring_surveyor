@@ -2,33 +2,33 @@
 
 namespace App\Imports;
 
-use Illuminate\Support\Collection;
-use App\Models\Branch;
 use App\Models\Surveyor;
+use App\Models\Task;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SurveyorsImport implements ToCollection, WithHeadingRow, WithValidation
+class TaskImport implements ToCollection, WithHeadingRow, WithValidation
 {
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            if ($row['branch']) {
-                $branch = Branch::where('name', $row['branch'])->first();
-                if (! $branch) {
-                    $branch = Branch::create([
-                        'name' => $row['branch'],
+            if ($row['surveyor_name']) {
+                $surveyor = Surveyor::where('name', $row['surveyor_name'])->first();
+                if (! $surveyor) {
+                    $surveyor = Surveyor::create([
+                        'name' => $row['surveyor_name'],
                     ]);
                 }
             }
 
             $data = [
                 'name' => $row['name'],
-                'branch_id' => $branch->id,
+                'surveyor_id' => $surveyor->id,
             ];
 
-            Surveyor::create($data);
+            Task::create($data);
         }
     }
 
@@ -36,7 +36,7 @@ class SurveyorsImport implements ToCollection, WithHeadingRow, WithValidation
     {
         return [
             'name' => 'required|max:255',
-            'branch' => 'required|max:255',
+            'surveyor_name' => 'required|max:255',
         ];
     }
 }

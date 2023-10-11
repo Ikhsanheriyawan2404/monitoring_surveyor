@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\TaskImport;
 use App\Models\Task;
 use App\Models\Surveyor;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TaskController extends Controller
 {
@@ -92,5 +94,21 @@ class TaskController extends Controller
         $task->restore();
 
         return Redirect::back()->with('success', 'Task restored.');
+    }
+
+    public function viewImport()
+    {
+        return Inertia::render('Tasks/ImportExcel');
+    }
+
+    public function import()
+    {
+        Request::validate([
+            'file' => ['required', 'mimes:xlsx'],
+        ]);
+
+        Excel::import(new TaskImport, Request::file('file'));
+
+        return Redirect::route('tasks')->with('success', 'Tasks imported.');
     }
 }

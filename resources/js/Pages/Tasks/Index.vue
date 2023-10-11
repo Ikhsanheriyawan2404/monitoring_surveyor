@@ -11,9 +11,13 @@
           <option value="only">Only Trashed</option>
         </select>
       </search-filter>
+      <Link class="btn-indigo" href="/tasks/import">
+        <span>Import</span>
+        <span class="hidden md:inline">&nbsp;Task</span>
+      </Link>
       <Link class="btn-indigo" href="/tasks/create">
         <span>Create</span>
-        <span class="hidden md:inline">&nbsp;task</span>
+        <span class="hidden md:inline">&nbsp;Task</span>
       </Link>
     </div>
     <div class="bg-white rounded-md shadow overflow-x-auto">
