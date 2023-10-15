@@ -41,6 +41,10 @@ class Surveyor extends Model
         });
     }
 
+    public function createSurveyor()
+    {
+    }
+
     public function branch()
     {
         return $this->belongsTo(Branch::class);
