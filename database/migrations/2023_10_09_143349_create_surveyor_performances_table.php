@@ -15,7 +15,7 @@ class CreateSurveyorPerformancesTable extends Migration
     {
         Schema::create('surveyor_performances', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('surveyor_id');
+            $table->unsignedInteger('surveyor_id');
             $table->integer('efficiency');
             $table->integer('productivity');
             $table->integer('quality');

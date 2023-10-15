@@ -15,7 +15,13 @@ class CreateBranchLeadsTable extends Migration
     {
         Schema::create('branch_leads', function (Blueprint $table) {
             $table->id();
+            $table->integer('branch_id');
+            $table->integer('month');
+            $table->integer('year');
+            $table->integer('total_leads');
             $table->timestamps();
+
+            $table->unique(['branch_id', 'month', 'year']);
         });
     }
 
