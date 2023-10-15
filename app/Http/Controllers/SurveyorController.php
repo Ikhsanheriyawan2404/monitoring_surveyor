@@ -103,7 +103,7 @@ class SurveyorController extends Controller
                 'branch_id' => $surveyor->branch_id,
                 'deleted_at' => $surveyor->deleted_at,
                 'tasks' => $surveyor->tasks()->get()->map->only('id', 'name'),
-                'performances' => $surveyor->performances()->get()->map->only(
+                'performances' => $surveyor->performances()->orderBy('month', 'ASC')->get()->map->only(
                     'id',
                     'efficiency',
                     'productivity',

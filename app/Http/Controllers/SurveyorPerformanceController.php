@@ -141,29 +141,31 @@ class SurveyorPerformanceController extends Controller
 
     public function update(SurveyorPerformance $performance)
     {
-        $performance->update(
-            Request::validate([
-                Request::validate([
-                    'month' => ['required', 'numeric', 'between:1,12'],
-                    'year' => ['required', 'numeric', 'date_format:Y'],
-                    'efficiency' => ['required', 'numeric', 'between:1,120'],
-                    'productivity' => ['required', 'numeric', 'between:1,120'],
-                    'quality' => ['required', 'numeric', 'between:1,120'],
-                    'surveyor_id' => [
-                        'required',
-                        Rule::exists('surveyors', 'id'),
-                        Rule::unique('surveyor_performances')
-                            ->ignore($performance->id)
-                            ->where(function ($query) {
-                                return $query
-                                    ->where('surveyor_id', request('surveyor_id'))
-                                    ->where('month', request('month'))
-                                    ->where('year', request('year'));
-                        }),
-                    ],
-                ])
-            ])
-        );
+
+        $request = Request::validate([
+            'month' => ['required', 'numeric', 'between:1,12'],
+            'year' => ['required', 'numeric', 'date_format:Y'],
+            'efficiency' => ['required', 'numeric', 'between:1,120'],
+            'productivity' => ['required', 'numeric', 'between:1,120'],
+            'quality' => ['required', 'numeric', 'between:1,120'],
+            'surveyor_id' => [
+                'required',
+                Rule::exists('surveyors', 'id'),
+                Rule::unique('surveyor_performances')
+                    ->ignore($performance->id)
+                    ->where(function ($query) {
+                        return $query
+                            ->where('surveyor_id', request('surveyor_id'))
+                            ->where('month', request('month'))
+                            ->where('year', request('year'));
+                }),
+            ],
+        ]);
+
+        $score = $this->calculateScore($request['efficiency'], $request['productivity'], $request['quality']);
+        $request['score'] = $score;
+
+        $performance->update($request);
 
         return Redirect::back()->with('success', 'Surveyor updated.');
     }

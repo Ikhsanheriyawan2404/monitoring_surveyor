@@ -272,8 +272,10 @@ export default {
         return 'Excelent'
       } else if (score > 70 && score <= 99) {
         return 'Good'
-      } else if (score <= 70) {
+      } else if (score <= 69 && score >= 50) {
         return 'Bad'
+      } else if (score < 50) {
+        return 'Very Bad'
       }
     },
   },
