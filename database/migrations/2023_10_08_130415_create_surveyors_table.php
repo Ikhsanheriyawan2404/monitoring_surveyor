@@ -17,6 +17,8 @@ class CreateSurveyorsTable extends Migration
             $table->increments('id');
             $table->integer('branch_id')->index();
             $table->string('name');
+            $table->date('join_date');
+            $table->string('status'); // probation, permanent
             $table->timestamps();
             $table->softDeletes();
 

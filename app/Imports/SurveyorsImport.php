@@ -25,7 +25,9 @@ class SurveyorsImport implements ToCollection, WithHeadingRow, WithValidation
 
             $data = [
                 'name' => $row['name'],
+                'join_date' => $row['join_date'],
                 'branch_id' => $branch->id,
+                'status' => $row['status'],
             ];
 
             Surveyor::create($data);
@@ -37,6 +39,8 @@ class SurveyorsImport implements ToCollection, WithHeadingRow, WithValidation
         return [
             'name' => 'required|max:255',
             'branch' => 'required|max:255',
+            'join_date' => 'required|date',
+            'permanent' => 'required',
         ];
     }
 }

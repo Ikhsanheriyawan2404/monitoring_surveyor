@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Branch;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -33,11 +34,12 @@ class BranchController extends Controller
 
     public function store()
     {
-        Branch::create(
-            Request::validate([
-                'name' => ['required', 'max:100'],
-            ])
-        );
+        $request = Request::validate([
+            'name' => ['required' ,'unique:branches,slug', 'max:100'],
+        ]);
+        $request['slug'] =  Str::slug($request['name']);
+
+        Branch::create($request);
 
         return Redirect::route('branches')->with('success', 'Branches created.');
     }
@@ -56,11 +58,11 @@ class BranchController extends Controller
 
     public function update(Branch $branch)
     {
-        $branch->update(
-            Request::validate([
-                'name' => ['required', 'max:100'],
-            ])
-        );
+        $request = Request::validate([
+            'name' => ['required', 'unique:branches,slug,' . $branch->id, 'max:100'],
+        ]);
+        $request['slug'] =  Str::slug($request['name']);
+        $branch->update($request);
 
         return Redirect::back()->with('success', 'Branch updated.');
     }

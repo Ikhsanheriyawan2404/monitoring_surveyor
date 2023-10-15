@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $faker = FakerFactory::create();
 
         $account = Account::create(['name' => 'Ikhsan Kurnia Corporation Official']);
 
@@ -34,42 +33,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory(5)->create(['account_id' => $account->id]);
 
-        // $branches = Branch::factory(12)->create();
-
-        // $surveyors = [];
-        // for ($i = 0; $i < 100; $i++) {
-        //     $surveyors[] = Surveyor::create([
-        //         'branch_id' => $branches->random()->id,
-        //         'name' => $faker->name(),
-        //     ]);
-        // }
-
-        // for ($i = 0; $i < 1000; $i++) {
-        //     Task::create([
-        //         'surveyor_id' => $surveyors[array_rand($surveyors)]->id,
-        //         'name' => 'Task ' . $i,
-        //     ]);
-        // }
-
-        // for ($i = 0; $i < 100; $i++) {
-        //     $surveyor = $surveyors[$i];
-        //     for ($j = 0; $j < 12; $j++) {
-        //         $efficiency = rand(60, 120);
-        //         $productivity = rand(60, 120);
-        //         $quality = rand(60, 120);
-
-        //         $score = $this->rumus($efficiency, $productivity, $quality);
-
-        //         $surveyor->performances()->create([
-        //             'efficiency' => $efficiency,
-        //             'productivity' => $productivity,
-        //             'quality' => $quality,
-        //             'month' => $j + 1,
-        //             'year' => 2023,
-        //             'score' => $score,
-        //         ]);
-        //     }
-        // }
+        // $this->randomData();
     }
 
     public function rumus($efficiency, $productivity, $quality)
@@ -78,5 +42,48 @@ class DatabaseSeeder extends Seeder
         $score = ($efficiency * 1.2) + ($productivity * 1.2) + ($quality * 1.2);
         $dibagi = (1.2 + 1.2 + 1.2) * 1.2;
         return $score / $dibagi;
+    }
+
+    public function randomData()
+    {
+        $faker = FakerFactory::create();
+
+        $branches = Branch::factory(12)->create();
+
+        $surveyors = [];
+
+        for ($i = 0; $i < 5000; $i++) {
+            $surveyors[] = Surveyor::create([
+                'branch_id' => $branches->random()->id,
+                'name' => $faker->name(),
+            ]);
+        }
+
+        for ($i = 0; $i < 10000; $i++) {
+            Task::create([
+                'surveyor_id' => $surveyors[array_rand($surveyors)]->id,
+                'name' => 'Task ' . $i,
+            ]);
+        }
+
+        for ($i = 0; $i < 5000; $i++) {
+            $surveyor = $surveyors[$i];
+            for ($j = 0; $j < 12; $j++) {
+                $efficiency = rand(60, 120);
+                $productivity = rand(60, 120);
+                $quality = rand(60, 120);
+
+                $score = $this->rumus($efficiency, $productivity, $quality);
+
+                $surveyor->performances()->create([
+                    'efficiency' => $efficiency,
+                    'productivity' => $productivity,
+                    'quality' => $quality,
+                    'month' => $j + 1,
+                    'year' => 2023,
+                    'score' => $score,
+                ]);
+            }
+        }
     }
 }

@@ -17,6 +17,13 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->integer("surveyor_id");
             $table->string("name");
+            $table->boolean("debitur_name");
+            $table->timestamp("survey_date");
+            $table->string("plat_number");
+            $table->string("slik_status")->nullable();
+            $table->string("application_status")->nullable();
+            $table->string("status"); // reject, golive, progrees(default), done
+            $table->string("slik_grouping");
             $table->timestamps();
             $table->softDeletes();
 
