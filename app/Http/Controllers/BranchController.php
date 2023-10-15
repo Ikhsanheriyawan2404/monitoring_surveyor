@@ -35,7 +35,7 @@ class BranchController extends Controller
     public function store()
     {
         $request = Request::validate([
-            'name' => ['required' ,'unique:branches,slug', 'max:100'],
+            'name' => ['required' ,'unique:branches,slug', 'max:255'],
         ]);
         $request['slug'] =  Str::slug($request['name']);
 
@@ -59,7 +59,7 @@ class BranchController extends Controller
     public function update(Branch $branch)
     {
         $request = Request::validate([
-            'name' => ['required', 'unique:branches,slug,' . $branch->id, 'max:100'],
+            'name' => ['required', 'unique:branches,slug,' . $branch->id, 'max:255'],
         ]);
         $request['slug'] =  Str::slug($request['name']);
         $branch->update($request);

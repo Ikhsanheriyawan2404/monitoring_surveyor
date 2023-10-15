@@ -16,6 +16,7 @@
             <option :value="null" />
             <option v-for="branch in branches" :key="branch.id" :value="branch.id">{{ branch.name }}</option>
           </select-input>
+          <text-input v-model="form.join_date" type="date" :error="form.errors.join_date" class="pb-8 pr-6 w-full lg:w-1/2" label="Join Date" />
         </div>
         <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
           <button v-if="!surveyor.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete surveyor</button>
@@ -239,6 +240,7 @@ export default {
       },
       form: this.$inertia.form({
         name: this.surveyor.name,
+        join_date: this.surveyor.join_date,
         branch_id: this.surveyor.branch_id,
       }),
       modalNew: false,

@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Imports\SurveyorsImport;
 use App\Models\Branch;
 use App\Models\Surveyor;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\SurveyorPerformance;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class SurveyorController extends Controller
 {
@@ -42,6 +44,8 @@ class SurveyorController extends Controller
                 ->through(fn ($surveyor) => [
                     'id' => $surveyor->id,
                     'name' => $surveyor->name,
+                    'join_date' => $surveyor->join_date,
+                    'status' => $surveyor->status,
                     'created_at' => $surveyor->created_at,
                     'branch' => $surveyor->branch->only('name'),
                 ]),
@@ -59,12 +63,16 @@ class SurveyorController extends Controller
 
     public function store()
     {
-        Surveyor::create(
-            Request::validate([
-                'name' => ['required', 'max:255'],
-                'branch_id' => ['required', Rule::exists('branches', 'id')]
-            ])
-        );
+        $request = Request::validate([
+            'name' => ['required' ,'unique:surveyors,slug_name', 'max:255'],
+            'branch_id' => ['required', Rule::exists('branches', 'id')],
+            'join_date' => ['required', 'date'],
+        ]);
+        $joinDate = Carbon::parse($request['join_date']);
+        $status = $joinDate->diffInDays(Carbon::now()) > 90 ? 'permanent' : 'probation';
+        $request['status'] = $status;
+        $request['slug_name'] = Str::slug($request['name']);
+        Surveyor::create($request);
 
         return Redirect::route('surveyors')->with('success', 'Surveyor created.');
     }
@@ -91,6 +99,7 @@ class SurveyorController extends Controller
             'surveyor' => [
                 'id' => $surveyor->id,
                 'name' => $surveyor->name,
+                'join_date' => $surveyor->join_date,
                 'branch_id' => $surveyor->branch_id,
                 'deleted_at' => $surveyor->deleted_at,
                 'tasks' => $surveyor->tasks()->get()->map->only('id', 'name'),
@@ -115,15 +124,20 @@ class SurveyorController extends Controller
 
     public function update(Surveyor $surveyor)
     {
-        $surveyor->update(
-            Request::validate([
-                'name' => ['required', 'max:255'],
-                'branch_id' => [
-                    'required',
-                    Rule::exists('branches', 'id'),
-                ],
-            ])
-        );
+        $request = Request::validate([
+            'name' => ['required' ,'unique:surveyors,slug_name,' . $surveyor->id, 'max:255'],
+            'branch_id' => [
+                'required',
+                Rule::exists('branches', 'id'),
+            ],
+            'join_date' => ['required', 'date'],
+        ]);
+        $joinDate = Carbon::parse($request['join_date']);
+        $status = $joinDate->diffInDays(Carbon::now()) > 90 ? 'permanent' : 'probation';
+        $request['slug_name'] = Str::slug($request['name']);
+        $request['status'] = $status;
+
+        $surveyor->update($request);
 
         return Redirect::back()->with('success', 'Surveyor updated.');
     }

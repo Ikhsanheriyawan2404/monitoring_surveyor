@@ -26,7 +26,8 @@
         <tr class="text-left font-bold">
           <th class="pb-4 pt-6 px-6">Name</th>
           <th class="pb-4 pt-6 px-6">Branch</th>
-          <th class="pb-4 pt-6 px-6" colspan="2">CreatedAt</th>
+          <th class="pb-4 pt-6 px-6">Join Date</th>
+          <th class="pb-4 pt-6 px-6" colspan="2">Status</th>
         </tr>
         <tr v-for="surveyor in surveyors.data" :key="surveyor.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
           <td class="border-t">
@@ -44,7 +45,14 @@
           </td>
           <td class="border-t">
             <Link class="flex items-center px-6 py-4" :href="`/surveyors/${surveyor.id}/edit`" tabindex="-1">
-              {{ surveyor.created_at }}
+              <div v-if="surveyor.join_date">
+                {{ surveyor.join_date }}
+              </div>
+            </Link>
+          </td>
+          <td class="border-t">
+            <Link class="flex items-center px-6 py-4" :href="`/surveyors/${surveyor.id}/edit`" tabindex="-1">
+              {{ surveyor.status }}
             </Link>
           </td>
           <td class="w-px border-t">

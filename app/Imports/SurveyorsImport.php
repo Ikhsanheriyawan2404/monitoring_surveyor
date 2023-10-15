@@ -38,6 +38,7 @@ class SurveyorsImport implements ToCollection, WithHeadingRow, WithValidation
 
             $data = [
                 'name' => $row['name'],
+                'slug_name' => Str::slug($row['name']),
                 'join_date' => $joinDate,
                 'branch_id' => $branch->id,
                 'status' => $status,
@@ -50,7 +51,7 @@ class SurveyorsImport implements ToCollection, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255',
+            'name' => ['required' ,'unique:surveyors,slug_name', 'max:255'],
             'branch' => 'required|max:255',
             'join_date' => 'required',
             'status' => [Rule::in(['permanent', 'probation'])],
