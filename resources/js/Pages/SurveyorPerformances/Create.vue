@@ -12,7 +12,6 @@
             <option :value="null" />
             <option v-for="(monthName, monthNumber) in months" :key="monthNumber" :value="monthNumber">{{ monthName }}</option>
           </select-input>
-          <text-input v-model="form.year" :error="form.errors.year" class="pb-8 pr-6 w-full lg:w-1/2" label="Year" type="number" />
           <text-input v-model="form.quality" :error="form.errors.quality" class="pb-8 pr-6 w-full lg:w-1/2" label="Quality" type="number" />
           <text-input v-model="form.productivity" :error="form.errors.productivity" class="pb-8 pr-6 w-full lg:w-1/2" label="Productivity" type="number" />
           <text-input v-model="form.efficiency" :error="form.errors.efficiency" class="pb-8 pr-6 w-full lg:w-1/2" label="Efficiency" type="number" />
@@ -54,7 +53,6 @@ export default {
     return {
       form: this.$inertia.form({
         month: '',
-        year: '',
         efficiency: '',
         productivity: '',
         quality: '',

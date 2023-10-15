@@ -33,7 +33,6 @@ export default {
     return {
       form: this.$inertia.form({
         month: this.months,
-        year: '',
         efficiency: '',
         productivity: '',
         quality: '',

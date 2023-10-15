@@ -14,13 +14,6 @@
         <option v-for="(monthName, monthNumber) in months" :key="monthNumber" :value="monthNumber">{{ monthName }}</option>
       </select-input>
       <text-input
-        v-model="form.year"
-        :error="form.errors.year"
-        class="w-full pb-8 pr-6 lg:w-1/2"
-        label="Year"
-        type="number"
-      />
-      <text-input
         v-model="form.quality"
         :error="form.errors.quality"
         class="w-full pb-8 pr-6 lg:w-1/2"

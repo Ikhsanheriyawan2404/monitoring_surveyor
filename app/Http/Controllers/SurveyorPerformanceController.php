@@ -64,7 +64,6 @@ class SurveyorPerformanceController extends Controller
     {
         $request = Request::validate([
             'month' => ['required', 'numeric', 'between:1,12'],
-            'year' => ['required', 'numeric', 'date_format:Y'],
             'efficiency' => ['required', 'numeric', 'between:1,120'],
             'productivity' => ['required', 'numeric', 'between:1,120'],
             'quality' => ['required', 'numeric', 'between:1,120'],
@@ -80,7 +79,9 @@ class SurveyorPerformanceController extends Controller
             ],
         ]);
 
+
         $score = $this->calculateScore($request['efficiency'], $request['productivity'], $request['quality']);
+        $request['year'] = date('Y');
         $request['score'] = $score;
 
         SurveyorPerformance::create($request);
@@ -92,7 +93,6 @@ class SurveyorPerformanceController extends Controller
     {
         $request = Request::validate([
             'month' => ['required', 'numeric', 'between:1,12'],
-            'year' => ['required', 'numeric', 'date_format:Y'],
             'efficiency' => ['required', 'numeric', 'between:1,120'],
             'productivity' => ['required', 'numeric', 'between:1,120'],
             'quality' => ['required', 'numeric', 'between:1,120'],
@@ -110,6 +110,7 @@ class SurveyorPerformanceController extends Controller
 
         $score = $this->calculateScore($request['efficiency'], $request['productivity'], $request['quality']);
         $request['score'] = $score;
+        $request['year'] = date('Y');
 
         SurveyorPerformance::create($request);
 
@@ -141,7 +142,6 @@ class SurveyorPerformanceController extends Controller
 
     public function update(SurveyorPerformance $performance)
     {
-
         $request = Request::validate([
             'month' => ['required', 'numeric', 'between:1,12'],
             'year' => ['required', 'numeric', 'date_format:Y'],
