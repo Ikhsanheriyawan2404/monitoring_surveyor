@@ -17,6 +17,10 @@ class SurveyorsImport implements ToCollection, WithHeadingRow, WithValidation
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
+            if (empty(array_filter($row->toArray()))) {
+                continue; // Lewatkan baris kosong
+            }
+
             if ($row['branch']) {
                 $branchSlugName = Str::slug($row['branch']);
                 $branch = Branch::where('slug', $branchSlugName)->first();
@@ -51,9 +55,8 @@ class SurveyorsImport implements ToCollection, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'name' => ['required' ,'unique:surveyors,slug_name', 'max:255'],
-            'branch' => 'required|max:255',
-            'join_date' => 'required',
+            'name' => ['unique:surveyors,slug_name', 'max:255'],
+            'branch' => 'max:255',
             'status' => [Rule::in(['permanent', 'probation'])],
         ];
     }
