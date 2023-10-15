@@ -25,7 +25,6 @@ class TaskController extends Controller
                 ->withQueryString()
                 ->through(fn ($task) => [
                     'id' => $task->id,
-                    'name' => $task->name,
                     'created_at' => $task->created_at,
                     'surveyor' => $task->surveyor->only('name'),
                 ]),

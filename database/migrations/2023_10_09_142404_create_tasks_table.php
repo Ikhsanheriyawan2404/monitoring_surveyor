@@ -16,14 +16,18 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->integer("surveyor_id");
-            $table->string("name");
-            $table->boolean("debitur_name");
+            $table->string("name")->nullable();
+            $table->string("debitur_name");
             $table->timestamp("survey_date");
             $table->string("plat_number");
             $table->string("slik_status")->nullable();
             $table->string("application_status")->nullable();
-            $table->string("status"); // reject, golive, progrees(default), done
+            $table->boolean("take_over");
+            $table->boolean("bpkb_onhand");
+            $table->string("leasing_name");
             $table->string("slik_grouping");
+            $table->string("information")->nullable();
+            $table->string("status"); // reject, golive, progrees(default), done
             $table->timestamps();
             $table->softDeletes();
 
